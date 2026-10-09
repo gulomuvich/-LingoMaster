@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LingoMaster Pro — Mukammal Ingliz Tili Ta'lim Platformasi</title>
+  <meta name="description" content="Ingliz tili so'zlarini o'rganish, testlar yechish, AI tarjimon, audio talaffuz, darajalar (A1-C2) va reyting platformasi.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar" id="app-navbar">
+      <div class="logo-container" id="nav-logo" role="button">
+        <div class="logo-badge">⚡</div>
+        <div class="logo-title">LingoMaster <span style="font-size:0.8rem; font-weight:600; color:var(--accent-tertiary); background:transparent; -webkit-text-fill-color: initial;">PRO</span></div>
+      </div>
+
+      <nav class="nav-links">
+        <button class="nav-item active" data-view="home" id="nav-btn-home">🏠 Bosh sahifa</button>
+        <button class="nav-item" data-view="quiz-select" id="nav-btn-tests">📝 Testlar</button>
+        <button class="nav-item" data-view="endless" id="nav-btn-endless">♾️ Cheksiz Rejim</button>
+        <button class="nav-item" data-view="ai" id="nav-btn-ai">🤖 AI Tarjimon</button>
+        <button class="nav-item" data-view="pronounce" id="nav-btn-pronounce">🎙️ Talaffuz</button>
+        <button class="nav-item" data-view="numbers" id="nav-btn-numbers">🔢 Sonlar (100M+)</button>
+        <button class="nav-item" data-view="dictionary" id="nav-btn-dict">📚 Lug'at</button>
+        <button class="nav-item" data-view="leaderboard" id="nav-btn-leaderboard">🏆 Reyting</button>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn-icon" id="theme-toggle-btn" title="Mavzuni almashtirish (Tun/Kun)" aria-label="Theme toggle">🌙</button>
+        <button class="btn-icon" id="audio-settings-btn" title="Ovoz Sozlamalari (Tiniq & Tabiiy talaffuz)" aria-label="Audio settings">🎧</button>
+        <button class="btn-icon" id="audio-toggle-btn" title="Ovozni yoqish/o'chirish" aria-label="Audio toggle">🔊</button>
+        <button class="user-badge-btn" id="user-profile-btn" aria-label="User Profile">
+          <span id="nav-user-avatar">👨‍🎓</span>
+          <span id="nav-user-name">Mehmon</span>
+          <span class="badge-tag" id="nav-user-level" style="font-size:0.7rem; padding:0.15rem 0.4rem;">A1</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ================= 1. HOME VIEW ================= -->
+    <main class="view-section active" id="view-home">
+      <!-- Hero Banner -->
+      <section class="hero-banner">
+        <div class="hero-content">
+          <div class="badge-tag" style="display:inline-block; margin-bottom:1rem;">🌟 Smart AI Ingliz Tili Platformasi</div>
+          <h1>Ingliz tilini <span class="gradient-text">tez, qulay va cheksiz</span> o'rganing!</h1>
+          <p>Barcha darajalar (A1 dan C2 gacha), audio talaffuz, aqlli sun'iy intellekt tarjimoni, cheksiz testlar oqimi va jonli reyting sizni kutmoqda.</p>
+          
+          <div class="hero-stats">
+            <div class="stat-pill">
+              <span class="num" id="stat-hero-words">400+</span>
+              <span class="label">Saralangan So'zlar</span>
+            </div>
+            <div class="stat-pill">
+              <span class="num" id="stat-hero-levels">6</span>
+              <span class="label">CEFR Darajalari</span>
+            </div>
+            <div class="stat-pill">
+              <span class="num" id="stat-hero-streak">🔥 1 kun</span>
+              <span class="label">Kunlik Streak</span>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="btn-hero-start-quiz">⚡ Testni Boshlash</button>
+            <button class="btn btn-secondary" id="btn-hero-endless">♾️ Cheksiz Rejim</button>
+            <button class="btn btn-secondary" id="btn-hero-open-ai">🤖 AI Tarjimon</button>
+          </div>
+        </div>
+
+        <!-- Kun so'zi kartasi (Word of the Day) -->
+        <div class="hero-card" id="word-of-day-card">
+          <div>
+            <div class="card-header-badge">
+              <span class="badge-tag">✨ Kun So'zi</span>
+              <span class="badge-tag" id="wod-level">B2</span>
+            </div>
+            <div class="word-card-word">
+              <span id="wod-en">Inspire</span>
+              <button class="btn-icon" id="wod-audio-btn" style="width:34px; height:34px; font-size:0.9rem;" title="Talaffuzni tinglash">🔊</button>
+            </div>
+            <div class="word-phonetic" id="wod-phonetic">/ɪnˈspaɪər/</div>
+            <div class="word-translation" id="wod-uz">ilhomlantirmoq</div>
+            
+            <div class="word-example-box">
+              <div id="wod-ex-en">"Great teachers inspire curiosity and creativity."</div>
+              <div class="word-example-uz" id="wod-ex-uz">"Buyuk ustozlar qiziquvchanlik va ijodkorlikni ilhomlantiradi."</div>
+            </div>
+          </div>
+          <button class="btn btn-secondary" id="wod-practice-btn" style="width:100%; font-size:0.9rem; padding:0.6rem;">Bu so'z bilan mashq qilish</button>
+        </div>
+      </section>
+
+      <!-- Darajalar tanlash (CEFR Levels) -->
+      <section>
+        <div class="section-title">
+          <span>🎯 Bilim Darajangizni Tanlang</span>
+          <span style="font-size:0.9rem; font-weight:500; color:var(--text-muted);">Boshlang'ichdan professionalgacha</span>
+        </div>
+        <div class="level-grid" id="level-selection-grid">
+          <div class="level-card selected" data-level="A1">
+            <div class="level-code A1">A1</div>
+            <div class="level-name">Beginner</div>
+            <div class="level-desc">Eng asosiy kundalik so'zlar va iboralar</div>
+          </div>
+          <div class="level-card" data-level="A2">
+            <div class="level-code A2">A2</div>
+            <div class="level-name">Elementary</div>
+            <div class="level-desc">Oddiy suhbat va sayohat so'zlari</div>
+          </div>
+          <div class="level-card" data-level="B1">
+            <div class="level-code B1">B1</div>
+            <div class="level-name">Intermediate</div>
+            <div class="level-desc">O'rta daraja, erkin muloqot va maqsadlar</div>
+          </div>
+          <div class="level-card" data-level="B2">
+            <div class="level-code B2">B2</div>
+            <div class="level-name">Upper-Int.</div>
+            <div class="level-desc">Murakkab mavzular, ish va fan</div>
+          </div>
+          <div class="level-card" data-level="C1">
+            <div class="level-code C1">C1</div>
+            <div class="level-name">Advanced</div>
+            <div class="level-desc">Ilg'or daraja, boy so'z boyligi va akademik til</div>
+          </div>
+          <div class="level-card" data-level="C2">
+            <div class="level-code C2">C2</div>
+            <div class="level-name">Proficient</div>
+            <div class="level-desc">Mahoratli ona tilidek so'zlashuv</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Test Rejimlari -->
+      <section>
+        <div class="section-title">
+          <span>🎮 Mashq va Test Rejimlari</span>
+        </div>
+        <div class="modes-grid">
+          <div class="mode-card" data-mode="en_to_uz" id="mode-card-en-uz">
+            <div class="mode-icon">🇬🇧➡️🇺🇿</div>
+            <div class="mode-info">
+              <h3>Inglizcha ➔ O'zbekcha</h3>
+              <p>Inglizcha so'z beriladi, uning to'g'ri o'zbekcha tarjimasini topasiz.</p>
+            </div>
+          </div>
+
+          <div class="mode-card" data-mode="uz_to_en" id="mode-card-uz-en">
+            <div class="mode-icon">🇺🇿➡️🇬🇧</div>
+            <div class="mode-info">
+              <h3>O'zbekcha ➔ Inglizcha</h3>
+              <p>O'zbekcha so'z beriladi, uning inglizcha to'g'ri ekvivalentini tanlaysiz.</p>
+            </div>
+          </div>
+
+          <div class="mode-card" data-mode="spelling" id="mode-card-spelling">
+            <div class="mode-icon">⌨️</div>
+            <div class="mode-info">
+              <h3>Yozma Imlo (Spelling)</h3>
+              <p>So'zni tinglab yoki tarjimasini ko'rib, klaviaturada to'g'ri yozasiz.</p>
+            </div>
+          </div>
+
+          <div class="mode-card" data-mode="endless" id="mode-card-endless">
+            <div class="mode-icon">♾️</div>
+            <div class="mode-info">
+              <h3>Cheksiz Rejim (Endless)</h3>
+              <p>Tugamaydigan so'zlar marafoni! 3 ta jon bilan eng yuqori rekord o'rnating.</p>
+            </div>
+          </div>
+
+          <div class="mode-card" data-mode="blitz" id="mode-card-blitz">
+            <div class="mode-icon">⚡</div>
+            <div class="mode-info">
+              <h3>60s Tezkor Blitz</h3>
+              <p>60 soniya ichida imkon qadar ko'proq savollarga javob bering.</p>
+            </div>
+          </div>
+
+          <div class="mode-card" data-mode="numbers" id="mode-card-numbers">
+            <div class="mode-icon">🔢</div>
+            <div class="mode-info">
+              <h3>Katta Sonlar (100M+ gacha)</h3>
+              <p>Thousand, Million va Billion raqamlarini to'g'ri topish va HD talaffuz mashqi!</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= 2. QUIZ SCREEN ================= -->
+    <section class="view-section" id="view-quiz">
+      <div class="quiz-wrapper">
+        <!-- Top bar -->
+        <div class="quiz-top-bar">
+          <div class="quiz-progress-info">
+            <span class="quiz-badge" id="quiz-level-badge">A1</span>
+            <span class="quiz-badge" id="quiz-mode-badge" style="background:rgba(6, 182, 212, 0.15); color:var(--accent-tertiary);">EN ➔ UZ</span>
+            <span id="quiz-counter" style="font-weight:700;">1 / 10</span>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:1.25rem;">
+            <div class="combo-pill" id="quiz-combo-container" style="display:none;">
+              <span>🔥 Combo</span> <span id="quiz-combo-val">0</span>x
+            </div>
+            <div class="lives-pill" id="quiz-lives-container" style="display:none;">
+              <span id="quiz-lives-display">❤️❤️❤️</span>
+            </div>
+            <div id="quiz-timer-container" style="display:none; font-weight:800; color:var(--warning);">
+              ⏳ <span id="quiz-timer-val">60</span>s
+            </div>
+            <button class="btn-secondary" id="btn-quiz-exit" style="padding:0.35rem 0.8rem; font-size:0.85rem; border-radius:var(--radius-sm);">Chiqish</button>
+          </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="quiz-progress-fill"></div>
+        </div>
+
+        <!-- Question area -->
+        <div class="question-card">
+          <div class="question-subtitle" id="quiz-direction-title">So'zning to'g'ri tarjimasini toping</div>
+          <div class="question-prompt">
+            <span id="quiz-target-word">Opportunity</span>
+            <button class="audio-speaker-btn" id="btn-speak-word" title="Talaffuzni tinglash">🔊</button>
+            <button class="btn-icon" id="btn-speak-word-slow" title="Sekinroq tinglash (0.7x)" style="font-size:0.85rem; width:36px; height:36px;">🐢</button>
+          </div>
+          <div class="question-phonetic" id="quiz-phonetic">/ˌɒpəˈtjuːnəti/</div>
+        </div>
+
+        <!-- 4 Options Grid -->
+        <div class="options-grid" id="quiz-options-grid">
+          <!-- Dynamic Buttons -->
+        </div>
+
+        <!-- Typing Box (Faqat spelling rejimida chiqadi) -->
+        <div class="typing-box" id="quiz-typing-container" style="display:none;">
+          <input type="text" class="typing-input" id="quiz-typing-input" placeholder="Inglizcha so'zni kiriting..." autocomplete="off">
+          <button class="btn btn-primary" id="btn-typing-submit">Tasdiqlash ↵</button>
+        </div>
+
+        <!-- Context & Example card -->
+        <div class="quiz-context-card" id="quiz-example-card">
+          <div>
+            <div class="context-text" id="quiz-example-en">"This is a great opportunity for students."</div>
+            <div class="context-uz" id="quiz-example-uz">"Bu talabalar uchun ulkan imkoniyatdir."</div>
+          </div>
+          <button class="btn-icon" id="btn-speak-example" title="Namuna gapni tinglash">🔊</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3. RESULTS SCREEN ================= -->
+    <section class="view-section" id="view-results">
+      <div class="results-card">
+        <div class="trophy-badge" id="results-trophy">🏆</div>
+        <h2 id="results-title">Test Muvaffaqiyatli Yakunlandi!</h2>
+        <p id="results-subtitle" style="color:var(--text-muted);">Sizning bilimingiz va natijalaringiz hisoblandi.</p>
+
+        <div class="results-stats-row">
+          <div class="result-stat-box">
+            <div class="val" id="res-score">10 / 10</div>
+            <div class="lbl">To'g'ri Javoblar</div>
+          </div>
+          <div class="result-stat-box">
+            <div class="val" id="res-accuracy">100%</div>
+            <div class="lbl">Aniqlik Darajasi</div>
+          </div>
+          <div class="result-stat-box">
+            <div class="val" id="res-xp">+150 XP</div>
+            <div class="lbl">To'plangan Tajriba</div>
+          </div>
+        </div>
+
+        <!-- Xatolar tahlili ro'yxati -->
+        <div class="mistakes-section" id="results-mistakes-container" style="display:none;">
+          <div style="font-weight:700; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
+            <span>❌ Xatolar Ustida Ishlash (<span id="res-mistakes-count">0</span> ta)</span>
+            <button class="btn-secondary" id="btn-retry-mistakes" style="font-size:0.8rem; padding:0.3rem 0.6rem;">Faqat xatolarni qayta yechish</button>
+          </div>
+          <div id="results-mistakes-list"></div>
+        </div>
+
+        <div style="display:flex; justify-content:center; gap:1rem; margin-top:2rem;">
+          <button class="btn btn-primary" id="btn-res-new-quiz">🔄 Yangi Test Boshlash</button>
+          <button class="btn btn-secondary" id="btn-res-home">🏠 Bosh Sahifa</button>
+          <button class="btn btn-secondary" id="btn-res-leaderboard">🏆 Reytingni Ko'rish</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 4. AI TRANSLATOR SCREEN ================= -->
+    <section class="view-section" id="view-ai">
+      <div class="ai-container">
+        <div class="ai-header">
+          <div class="badge-tag" style="display:inline-block; margin-bottom:0.5rem;">🤖 Sun'iy Intellekt Dvigateli</div>
+          <h2>Smart AI Tarjimon & Lug'at</h2>
+          <p style="color:var(--text-muted); max-width:620px; margin:0 auto;">
+            O'zbekcha yozsangiz — inglizchasiga aylantirib to'liq tahlil qiladi. Inglizcha yozsangiz — o'zbekcha ma'nolari, sinonimlari, fonetikasi va misol gaplarini beradi.
+          </p>
+        </div>
+
+        <div class="ai-box-grid">
+          <!-- Input card -->
+          <div class="ai-card">
+            <div class="ai-card-title">
+              <span id="ai-source-lang-label">Kiritish (O'zbekcha yoki Inglizcha)</span>
+              <button class="btn-secondary" id="btn-ai-clear" style="padding:0.2rem 0.5rem; font-size:0.75rem;">Tozalash</button>
+            </div>
+            <textarea class="ai-textarea" id="ai-input-text" placeholder="Ixtiyoriy so'z yoki gap yozing... (Masalan: 'kelajak', 'sarmoya', 'creativity', 'I want to travel')"></textarea>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border-glass);">
+              <button class="btn-icon" id="btn-ai-voice-input" title="Ovoz bilan kiritish (Mikrofon)">🎙️</button>
+              <button class="btn btn-primary" id="btn-ai-translate">✨ AI Tahlil Qilish</button>
+            </div>
+          </div>
+
+          <!-- Output card -->
+          <div class="ai-card">
+            <div class="ai-card-title">
+              <span id="ai-target-lang-label">AI Natijasi va Tahlil</span>
+              <div style="display:flex; gap:0.5rem;">
+                <button class="btn-icon" id="btn-ai-speak-result" title="Tarjimani tinglash" style="width:32px; height:32px; font-size:0.9rem;">🔊</button>
+                <button class="btn-icon" id="btn-ai-copy-result" title="Nusxalash" style="width:32px; height:32px; font-size:0.9rem;">📋</button>
+              </div>
+            </div>
+            
+            <div class="ai-output-box" id="ai-result-content">
+              <div style="text-align:center; color:var(--text-dim); margin-top:4rem;">
+                <div style="font-size:2.5rem; margin-bottom:1rem;">💡</div>
+                So'z yoki gap kiriting va AI natijani shu yerda ko'rsatadi.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Optional Gemini API key drawer -->
+        <div style="margin-top:2rem; text-align:right;">
+          <button id="btn-toggle-gemini-settings" style="background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:0.85rem; text-decoration:underline;">
+            ⚙️ Gemini API Kalitini Sozlash (Ixtiyoriy)
+          </button>
+          <div id="gemini-key-box" style="display:none; margin-top:0.75rem; background:var(--bg-card); padding:1rem; border-radius:var(--radius-md); border:1px solid var(--border-glass); text-align:left;">
+            <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Google Gemini API Kaliti (Online LLM uchun):</label>
+            <div style="display:flex; gap:0.5rem;">
+              <input type="password" id="gemini-key-input" class="form-control" placeholder="AIzaSy...">
+              <button class="btn btn-secondary" id="btn-save-gemini-key">Saqlash</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 5. PRONUNCIATION TRAINER ================= -->
+    <section class="view-section" id="view-pronounce">
+      <div style="max-width:760px; margin:1.5rem auto 0; text-align:center;">
+        <div class="badge-tag" style="display:inline-block; margin-bottom:0.5rem;">🎙️ Ovozli Mashq</div>
+        <h2 style="font-size:2.4rem; font-weight:800; margin-bottom:0.5rem;">Talaffuzni Mukammallashtirish</h2>
+        <p style="color:var(--text-muted); margin-bottom:2rem;">So'zni eshiting, so'ng mikrofonga talaffuz qiling. Brauzer sizning talaffuzingiz aniqligini baholaydi!</p>
+
+        <div style="background:var(--bg-card); border:1px solid var(--border-glass); border-radius:var(--radius-lg); padding:3rem 2rem; box-shadow:var(--shadow-lg);">
+          <div class="badge-tag" id="pr-level-tag" style="margin-bottom:1rem; display:inline-block;">B1 Intermediate</div>
+          <div style="font-size:3rem; font-weight:900; margin-bottom:0.5rem;" id="pr-target-word">Experience</div>
+          <div style="font-family:monospace; color:var(--text-muted); font-size:1.2rem; margin-bottom:1.5rem;" id="pr-target-phonetic">/ɪkˈspɪəriəns/</div>
+          <div style="color:var(--accent-tertiary); font-size:1.25rem; font-weight:600; margin-bottom:2rem;" id="pr-target-uz">tajriba</div>
+
+          <div style="display:flex; justify-content:center; gap:1rem; margin-bottom:2.5rem;">
+            <button class="btn btn-secondary" id="btn-pr-listen">🔊 Tinglash</button>
+            <button class="btn btn-secondary" id="btn-pr-listen-slow">🐢 Sekin (0.7x)</button>
+            <button class="btn btn-secondary" id="btn-pr-next">➡️ Keyingi So'z</button>
+          </div>
+
+          <div style="margin-bottom:2rem;">
+            <button id="btn-pr-mic" style="width:90px; height:90px; border-radius:50%; background:var(--accent-gradient); border:none; font-size:2.5rem; color:#fff; cursor:pointer; box-shadow:0 0 25px var(--accent-glow); transition:transform 0.2s ease;">
+              🎙️
+            </button>
+            <div id="pr-mic-status" style="margin-top:1rem; font-weight:600; color:var(--text-muted);">Tugmani bosing va talaffuz qiling</div>
+          </div>
+
+          <!-- Result feedback -->
+          <div id="pr-feedback-box" style="display:none; padding:1.25rem; border-radius:var(--radius-md); background:var(--bg-secondary); border:1px solid var(--border-glass);">
+            <div style="font-size:1.4rem; font-weight:800;" id="pr-feedback-score">Aniqlik: 95%</div>
+            <div style="color:var(--text-muted); margin-top:0.3rem;" id="pr-feedback-said">Siz aytganingiz: "experience"</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 5.5. NUMBERS MASTER SCREEN ================= -->
+    <section class="view-section" id="view-numbers">
+      <div style="max-width:960px; margin:1.5rem auto 0;">
+        <div style="text-align:center; margin-bottom:2rem;">
+          <div class="badge-tag" style="display:inline-block; margin-bottom:0.5rem;">🔢 Cheksiz Sonlar va Talaffuz (100M+ gacha)</div>
+          <h2 style="font-size:2.4rem; font-weight:800;">Katta Sonlar & Raqamlar Mashqi</h2>
+          <p style="color:var(--text-muted); max-width:650px; margin:0 auto;">
+            Minglar (Thousand), Millionlar (Million, 100M) va Milliardlar (Billion) inglizcha to'g'ri o'qilishi, yozilishi va HD talaffuzi!
+          </p>
+        </div>
+
+        <!-- Tier Tabs -->
+        <div style="display:flex; justify-content:center; gap:0.6rem; margin-bottom:2rem; flex-wrap:wrap;">
+          <button class="btn btn-secondary num-filter-btn active" data-tier="all" id="btn-num-tier-all">🌐 Barcha Sonlar</button>
+          <button class="btn btn-secondary num-filter-btn" data-tier="thousand" id="btn-num-tier-thousand">🔹 Thousand (1,000+)</button>
+          <button class="btn btn-secondary num-filter-btn" data-tier="million" id="btn-num-tier-million">🔸 Million (1M - 100M+)</button>
+          <button class="btn btn-secondary num-filter-btn" data-tier="billion" id="btn-num-tier-billion">🚀 Billion (1,000,000,000+)</button>
+        </div>
+
+        <!-- 1. Interactive Numbers Quiz Card -->
+        <div style="background:var(--bg-card); border:1px solid var(--border-glass); border-radius:var(--radius-lg); padding:2.5rem; box-shadow:var(--shadow-lg); margin-bottom:2.5rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+            <span class="badge-tag" id="num-quiz-badge">Million Tier</span>
+            <div style="font-weight:700; color:var(--warning);" id="num-quiz-streak">🔥 Ketma-ket: 0 ta</div>
+          </div>
+
+          <div style="text-align:center; margin-bottom:2rem;">
+            <div style="font-size:0.9rem; color:var(--text-muted); text-transform:uppercase; font-weight:700; letter-spacing:1px; margin-bottom:0.5rem;">
+              Ushbu raqam ingliz tilida qanday o'qiladi?
+            </div>
+            <div style="font-size:3.2rem; font-weight:900; letter-spacing:1px; color:var(--accent-tertiary); display:inline-flex; align-items:center; gap:1rem;" id="num-display-digits">
+              100,000,000
+            </div>
+            <div style="margin-top:0.75rem; display:flex; justify-content:center; gap:0.75rem;">
+              <button class="btn-icon" id="btn-speak-num" title="Inglizcha talaffuzni tinglash" style="width:44px; height:44px; font-size:1.2rem;">🔊</button>
+              <button class="btn-icon" id="btn-speak-num-slow" title="Sekinroq tinglash (0.75x)" style="width:44px; height:44px; font-size:1rem;">🐢</button>
+            </div>
+            <div style="color:var(--text-muted); font-size:1.05rem; margin-top:0.5rem;" id="num-display-uz">
+              (O'zbekcha: bir yuz million)
+            </div>
+          </div>
+
+          <!-- Options Grid -->
+          <div class="options-grid" id="num-options-grid">
+            <!-- Dynamic Buttons -->
+          </div>
+
+          <div style="display:flex; justify-content:center; margin-top:1.5rem;">
+            <button class="btn btn-secondary" id="btn-next-number" style="display:none;">
+              Keyingi Raqam ➔
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Interactive Number to Words Calculator & Speech -->
+        <div style="background:var(--bg-secondary); border:1px solid var(--border-glass); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-md); margin-bottom:2.5rem;">
+          <div style="font-size:1.3rem; font-weight:800; margin-bottom:0.5rem;">
+            ⚡ Cheksiz Raqamlar O'quvchi & Audio Sintezatori (100,000,000+)
+          </div>
+          <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.25rem;">
+            Ixtiyoriy son kiriting (masalan: 100000000 yoki 45320500) — tizim uni inglizcha to'liq so'zga aylantiradi va talaffuz qilib beradi!
+          </p>
+
+          <div style="display:flex; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+            <input type="number" id="num-calc-input" class="form-control" placeholder="Masalan: 100000000" style="flex:1; min-width:240px; font-size:1.15rem; font-weight:700;">
+            <button class="btn btn-primary" id="btn-calc-convert">O'qish & Tinglash 🔊</button>
+          </div>
+
+          <div id="num-calc-result-box" style="display:none; background:var(--bg-glass); border:1px solid var(--border-glass); border-radius:var(--radius-md); padding:1.25rem;">
+            <div style="font-size:0.85rem; color:var(--text-dim); text-transform:uppercase; font-weight:700;">Inglizcha Yozilishi:</div>
+            <div style="font-size:1.4rem; font-weight:800; color:var(--accent-tertiary); margin:0.3rem 0;" id="num-calc-en">
+              one hundred million
+            </div>
+            <div style="font-size:0.95rem; color:var(--text-muted);" id="num-calc-uz">
+              O'zbekcha: bir yuz million
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Pre-built Milestone Numbers Grid -->
+        <div>
+          <div class="section-title" style="margin-top:0;">
+            <span>📚 Eng Asosiy Katta Sonlar (Thousand, Million, Billion)</span>
+          </div>
+          <div class="dict-grid" id="num-milestones-grid">
+            <!-- Dynamic Cards -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 6. DICTIONARY CATALOG SCREEN ================= -->
+    <section class="view-section" id="view-dictionary">
+      <div style="max-width:1100px; margin:1.5rem auto 0;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <div class="badge-tag" style="margin-bottom:0.5rem; display:inline-block;">📚 Lug'at Xazinasi</div>
+            <h2 style="font-size:2.2rem; font-weight:800;">Interaktiv Lug'at</h2>
+          </div>
+          <div style="color:var(--text-muted); font-weight:600;">Jami so'zlar: <span id="dict-total-count" style="color:var(--accent-tertiary); font-weight:800;">0</span> ta</div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="dict-search-bar">
+          <input type="text" class="search-input" id="dict-search-input" placeholder="🔍 Inglizcha yoki o'zbekcha so'z qidiring...">
+          <select id="dict-filter-level" class="form-control" style="max-width:150px; background:var(--bg-card); cursor:pointer;">
+            <option value="ALL">Barcha Darajalar</option>
+            <option value="A1">A1 Beginner</option>
+            <option value="A2">A2 Elementary</option>
+            <option value="B1">B1 Intermediate</option>
+            <option value="B2">B2 Upper-Int.</option>
+            <option value="C1">C1 Advanced</option>
+            <option value="C2">C2 Proficient</option>
+          </select>
+          <select id="dict-filter-cat" class="form-control" style="max-width:170px; background:var(--bg-card); cursor:pointer;">
+            <option value="ALL">Barcha Mavzular</option>
+            <option value="daily">Kundalik hayot</option>
+            <option value="education">Ta'lim</option>
+            <option value="tech">IT & Texnologiya</option>
+            <option value="business">Biznes & Ish</option>
+            <option value="travel">Sayohat</option>
+            <option value="nature">Tabiat</option>
+            <option value="emotions">Hissiyotlar</option>
+            <option value="idioms">Idiomalar</option>
+          </select>
+        </div>
+
+        <!-- Words Grid -->
+        <div class="dict-grid" id="dict-cards-grid">
+          <!-- Dynamic Dictionary Cards -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 7. LEADERBOARD SCREEN ================= -->
+    <section class="view-section" id="view-leaderboard">
+      <div style="max-width:860px; margin:1.5rem auto 0;">
+        <div style="text-align:center; margin-bottom:2rem;">
+          <div class="badge-tag" style="margin-bottom:0.5rem; display:inline-block;">🏆 Peshqadamlar</div>
+          <h2 style="font-size:2.4rem; font-weight:800;">O'quvchilar Reytingi</h2>
+          <p style="color:var(--text-muted);">Eng ko'p test yechgan va yuqori tajriba (XP) to'plagan eng sara o'quvchilar</p>
+        </div>
+
+        <div class="leaderboard-table-card">
+          <div class="leader-row header">
+            <span>O'rin</span>
+            <span>O'quvchi</span>
+            <span>Daraja</span>
+            <span>Aniqlik</span>
+            <span style="text-align:right;">Umumiy XP</span>
+          </div>
+
+          <div id="leaderboard-rows-container">
+            <!-- Dynamic Leaderboard Rows -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= AUTH MODAL (LOGIN / REGISTER) ================= -->
+  <div class="modal-overlay" id="modal-auth">
+    <div class="modal-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+        <h3 id="auth-modal-title" style="font-size:1.5rem; font-weight:800;">Tizimga Kirish</h3>
+        <button class="btn-icon" id="btn-close-auth-modal" style="width:32px; height:32px; font-size:0.8rem;">✕</button>
+      </div>
+
+      <!-- Tab toggle -->
+      <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem; background:var(--bg-primary); padding:0.3rem; border-radius:var(--radius-sm);">
+        <button class="btn-secondary" id="tab-login-btn" style="flex:1; border:none; padding:0.5rem; border-radius:var(--radius-sm); font-weight:700; background:var(--accent-primary); color:#fff;">Kirish</button>
+        <button class="btn-secondary" id="tab-reg-btn" style="flex:1; border:none; padding:0.5rem; border-radius:var(--radius-sm); font-weight:700; background:transparent;">Ro'yxatdan O'tish</button>
+      </div>
+
+      <form id="auth-form">
+        <div class="form-group" id="group-fullname" style="display:none;">
+          <label>To'liq Ismingiz</label>
+          <input type="text" class="form-control" id="auth-name" placeholder="Masalan: Sardor Aliyev">
+        </div>
+
+        <div class="form-group">
+          <label>Foydalanuvchi Nomi (Login)</label>
+          <input type="text" class="form-control" id="auth-username" placeholder="sardor_pro" required>
+        </div>
+
+        <div class="form-group">
+          <label>Parol</label>
+          <input type="password" class="form-control" id="auth-password" placeholder="••••••••" required>
+        </div>
+
+        <div class="form-group" id="group-reg-details" style="display:none;">
+          <label>Boshlang'ich Bilim Darajangiz</label>
+          <select class="form-control" id="auth-level">
+            <option value="A1">A1 — Boshlang'ich (Beginner)</option>
+            <option value="A2">A2 — Elementary</option>
+            <option value="B1">B1 — O'rta (Intermediate)</option>
+            <option value="B2">B2 — Yuqori O'rta</option>
+            <option value="C1">C1 — Ilg'or (Advanced)</option>
+          </select>
+
+          <label style="margin-top:1rem;">Avatar Tanlang</label>
+          <div class="avatar-selector" id="auth-avatar-grid"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="btn-auth-submit" style="width:100%; margin-top:1.5rem;">Kirish</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= PROFILE MODAL ================= -->
+  <div class="modal-overlay" id="modal-profile">
+    <div class="modal-content" style="max-width:540px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+        <h3 style="font-size:1.4rem; font-weight:800;">O'quvchi Kabineti</h3>
+        <button class="btn-icon" id="btn-close-profile-modal" style="width:32px; height:32px; font-size:0.8rem;">✕</button>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:1.25rem; margin-bottom:1.5rem; padding-bottom:1.5rem; border-bottom:1px solid var(--border-glass);">
+        <div style="font-size:3.5rem; width:75px; height:75px; background:var(--bg-glass); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center;" id="prof-avatar">👨‍🎓</div>
+        <div>
+          <h4 style="font-size:1.3rem; font-weight:800;" id="prof-name">Sardor</h4>
+          <div style="color:var(--text-muted); font-size:0.9rem;" id="prof-username">@sardor_pro</div>
+          <div class="badge-tag" id="prof-level-tag" style="margin-top:0.4rem; display:inline-block;">A1 Beginner</div>
+        </div>
+      </div>
+
+      <div class="results-stats-row" style="margin:1rem 0;">
+        <div class="result-stat-box">
+          <div class="val" id="prof-stat-xp">0</div>
+          <div class="lbl">Umumiy XP</div>
+        </div>
+        <div class="result-stat-box">
+          <div class="val" id="prof-stat-tests">0</div>
+          <div class="lbl">Yechilgan Testlar</div>
+        </div>
+        <div class="result-stat-box">
+          <div class="val" id="prof-stat-acc">0%</div>
+          <div class="lbl">Aniqlik</div>
+        </div>
+      </div>
+
+      <div style="margin:1.5rem 0;">
+        <label style="font-weight:700; font-size:0.85rem; color:var(--text-muted); display:block; margin-bottom:0.5rem;">O'rganish Darajangizni O'zgartirish</label>
+        <select class="form-control" id="prof-change-level">
+          <option value="A1">A1 Beginner (Boshlang'ich)</option>
+          <option value="A2">A2 Elementary</option>
+          <option value="B1">B1 Intermediate (O'rta)</option>
+          <option value="B2">B2 Upper-Intermediate</option>
+          <option value="C1">C1 Advanced (Ilg'or)</option>
+          <option value="C2">C2 Proficient</option>
+        </select>
+      </div>
+
+      <div style="display:flex; gap:1rem;">
+        <button class="btn btn-primary" id="btn-prof-save" style="flex:1;">Saqlash</button>
+        <button class="btn btn-secondary" id="btn-prof-logout" style="color:var(--danger); border-color:rgba(239, 68, 68, 0.3);">Chiqish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= AUDIO SETTINGS MODAL ================= -->
+  <div class="modal-overlay" id="modal-audio-settings">
+    <div class="modal-content" style="max-width:500px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <span style="font-size:1.6rem;">🎧</span>
+          <h3 style="font-size:1.4rem; font-weight:800;">Ovoz va Talaffuz Sozlamalari</h3>
+        </div>
+        <button class="btn-icon" id="btn-close-audio-modal" style="width:32px; height:32px; font-size:0.8rem;">✕</button>
+      </div>
+
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;">
+        Ovozni o'zingizga qulay, tushunarli va chiroyli holatga sozlang.
+      </p>
+
+      <div class="form-group">
+        <label>🎙️ Ovoz Turi va Talaffuz Manbasi</label>
+        <select class="form-control" id="audio-setting-mode">
+          <option value="hd_natural">🌟 Google Studio HD (Eng tiniq va yoqimli inson ovozi)</option>
+          <option value="hd_uk">🇬🇧 British Accent HD (Britaniya talaffuzi)</option>
+          <option value="browser_natural">💻 Brauzer Tabiiy TTS (Offline tezkor ovoz)</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin-top:1.25rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+          <label style="margin-bottom:0;">⚡ Talaffuz Tezligi</label>
+          <span id="audio-speed-val" style="font-weight:800; color:var(--accent-tertiary); font-size:0.9rem;">0.88x (Optimal)</span>
+        </div>
+        <input type="range" id="audio-setting-speed" min="0.6" max="1.0" step="0.05" value="0.88" style="width:100%; accent-color:var(--accent-primary); cursor:pointer;">
+        <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-dim); margin-top:0.3rem;">
+          <span>🐢 0.6x (Sekin, aniq)</span>
+          <span>🎧 0.88x (Tavsiya)</span>
+          <span>⚡ 1.0x (Normal)</span>
+        </div>
+      </div>
+
+      <div style="background:var(--bg-glass); border:1px solid var(--border-glass); border-radius:var(--radius-sm); padding:1rem; margin:1.5rem 0; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-weight:700; font-size:0.95rem;">Talaffuzni hoziroq sinab ko'ring</div>
+          <div style="color:var(--text-muted); font-size:0.8rem;">"Welcome to LingoMaster Pro!"</div>
+        </div>
+        <button class="btn btn-secondary" id="btn-test-voice" style="padding:0.4rem 0.9rem; font-size:0.85rem;">
+          🔊 Sinash
+        </button>
+      </div>
+
+      <div style="display:flex; gap:1rem;">
+        <button class="btn btn-primary" id="btn-save-audio-settings" style="width:100%;">
+          Saqlash va Qo'llash
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Message container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Main Application Script (ES Module) -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
